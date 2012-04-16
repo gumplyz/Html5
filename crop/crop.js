@@ -1,4 +1,5 @@
-var CROP={
+(function(){
+	var CROP={
     
 };
 
@@ -70,13 +71,14 @@ function getCropResult(){
 
 function handleOnLoad(){
  CROP.img=new Image();
-    CROP.img.src="crop.jpg";
+    CROP.img.src="./crop.jpg";
    
 CROP.selection=new Selection(200,200,200,200);
     drawScene();
     $("#panel").mousemove(handleMouseMove);
     $("#panel").mousedown(handleMouseDown);
     $("#panel").mouseup(handleMouseUp);
+	$("#crop").click(getCropResult);
 }
 
 function handleMouseMove(e){
@@ -212,3 +214,8 @@ var selection=CROP.selection;
         selection.py = 0;
 
 }
+
+$(document).ready(function(){
+      handleOnLoad();
+    });
+})();
