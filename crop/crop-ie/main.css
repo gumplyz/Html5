@@ -1,0 +1,12 @@
+#crop_result{
+    
+    display:block
+    }
+#selection{
+border: 1px solid #000;
+position:absolute;
+}
+#crop_result_container{
+width: 200px;
+height:200px;
+}
