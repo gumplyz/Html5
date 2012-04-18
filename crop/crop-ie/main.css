@@ -10,3 +10,7 @@ position:absolute;
 width: 200px;
 height:200px;
 }
+#canvas{
+    width:  980px;
+    height: 580px;
+    }
