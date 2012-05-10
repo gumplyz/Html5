@@ -1,0 +1,35 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size:62.5%
+}
+
+#crop_result {
+	display: block
+}
+
+#selection {
+	border: 1px solid #000;
+	position: absolute;
+	z-index: 10;
+}
+
+#crop_result_container {
+	width: 200px;
+	height: 200px;
+}
+
+#canvas {
+	width: 490px;
+	height: 290px;
+	overflow:hidden;
+}
+
+.contr{
+	height:80px;
+	margin-bottom:10px;
+}
+
+.sliderCtn {
+	padding: 12px;
+	width: 200px;
+}

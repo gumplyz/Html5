@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>HTML image crop tool for IE</title>
+<link href="css/main.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/jquery.ui.all.css">
+</head>
+<header>
+	<h2>HTML5 image crop tool for IE</h2>
+</header>
+<div class="container">
+	<div class="contr">
+		<input id="fileupload" type="file" name="file"
+			data-url="imageupload" multiple>
+
+		<button id="cropBtn" onclick="getCropResult()">Crop</button>
+		<div class="sliderCtn">
+			<div id="slider"></div>
+		</div>
+		<input type="text" id="amount"
+			style="border: 0; color: #f6931f; font-weight: bold;" value="50" />
+	</div>
+	<div id="canvas">
+
+		<img id="panel"></img>
+		<div id="selection"></div>
+	</div>
+
+	<div id="crop_result_container">
+		<img id="crop_result" src="result.jpg" />
+	</div>
+</div>
+<script src="js/jquery-1.7.1.js"></script>
+<script src="js/jquery.ui.core.js"></script>
+<script src="js/jquery.ui.widget.js"></script>
+<script src="js/jquery.ui.mouse.js"></script>
+<script src="js/jquery.ui.slider.js"></script>
+<script src="js/jquery.ui.draggable.js"></script>
+<script src="js/jquery.iframe-transport.js"></script>
+<script src="js/jquery.fileupload.js"></script>
+<script src="js/crop.js"></script>
+
+
+</html>
