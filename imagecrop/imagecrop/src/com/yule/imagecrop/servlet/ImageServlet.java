@@ -34,7 +34,7 @@ public class ImageServlet extends HttpServlet {
 
 		try {
 			BufferedImage img = ImageIO.read(new File(
-					"D:\\ws\\imagecrop\\imagecrop\\WebContent\\" + filename));
+					"/home/yle/html5/crop/Html5/imagecrop/imagecrop/WebContent/" + filename));
 			ImageIO.write(img, "jpg", resp.getOutputStream());
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);

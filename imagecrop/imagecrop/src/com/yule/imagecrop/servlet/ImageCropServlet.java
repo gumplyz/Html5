@@ -24,16 +24,18 @@ public class ImageCropServlet extends HttpServlet {
 			throws ServletException, IOException {
 		int x = Integer.parseInt(req.getParameter("x"));
 		int y = Integer.parseInt(req.getParameter("y"));
-		int scale = Integer.parseInt(req.getParameter("sc"));
+		double w = Double.parseDouble(req.getParameter("w"));
+		double h = Double.parseDouble(req.getParameter("h"));
+		double scale = Double.parseDouble(req.getParameter("sc"));
 
 		BufferedImage img = null;
 		try {
 			img = ImageIO.read(new File(
-					"D:\\ws\\imagecrop\\imagecrop\\WebContent\\crop.jpg"));
+					"/home/yle/html5/crop/Html5/imagecrop/imagecrop/WebContent/upload.jpg"));
 			BufferedImage scaledImage = resizeImage(img, (double) scale / 100);
-			BufferedImage resultImage = cropImage(scaledImage, x, y, 200, 200);
+			BufferedImage resultImage = cropImage(scaledImage, x, y, (int)w, (int)h);
 			ImageIO.write(resultImage, "jpg", new File(
-					"D:\\ws\\imagecrop\\imagecrop\\WebContent\\result.jpg"));
+					"/home/yle/html5/crop/Html5/imagecrop/imagecrop/WebContent/result.jpg"));
 		} catch (IOException e) {
 			log.error(e.getMessage(), e);
 		}

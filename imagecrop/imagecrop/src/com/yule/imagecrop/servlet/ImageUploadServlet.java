@@ -28,7 +28,7 @@ public class ImageUploadServlet extends HttpServlet {
 
 		BufferedImage img = ImageIO.read(is);
 		ImageIO.write(img, "jpg", new File(
-				"D:\\ws\\imagecrop\\imagecrop\\WebContent\\crop.jpg"));
+				"/home/yle/html5/crop/Html5/imagecrop/imagecrop/WebContent/upload.jpg"));
 
 		resp.setContentType("application/json");
 		PrintWriter writer = resp.getWriter();

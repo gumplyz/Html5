@@ -17,8 +17,8 @@
 		this.imgTop = 0;
 
 		this.div = $("#selection");
-		this.div.css("width", 200);
-		this.div.css("height", 200);
+		this.div.css("width", w);
+		this.div.css("height", h);
 
 		var imgOffset = CROP.img.offset();
 		this.div.css("left", imgOffset.left);
@@ -131,33 +131,71 @@
 	function getCropResult() {
 		var imgXY = CROP.selection.getImgXY();
 		var url = "/imagecrop/imagecrop?x=" + imgXY.X + "&y=" + imgXY.Y
-				+ "&sc=" + CROP.selection.scale;
+				+ "&sc=" + CROP.selection.scale + "&w=" + CROP.selection.w
+				+ "&h=" + CROP.selection.h;
 		$.get(url, function(data) {
 			$("#crop_result").attr("src",
-					"/imagecrop/image/result.jpg&ts=" + new Date());
+					"/imagecrop/image/result.jpg&ts=" + new Date().getTime());
 		});
 	}
 
-	function handleOnLoad() {
-		$('#fileupload').fileupload({
-			dataType : 'json',
-			done : function(e, data) {
-				console.log("data");
-			}
-		});
+	function calculateImageScale() {
+		var imgHeight = CROP.img.height();
+		var imgWidth = CROP.img.width();
 
+		if (imgHeight / imgWidth > CROP.canvas.height / CROP.canvas.width) {
+			jQuery.data(CROP.img[0], "width", CROP.img.width());
+			CROP.img.width(490);
+			// height>width we scale width
+			if (imgWidth > 490) {
+				return {
+					slideFn : slideWidth,
+					scale : {
+
+						min : (490 / imgWidth) * 100,
+						max : 100
+					}
+				};
+			}
+		} else {
+			jQuery.data(CROP.img[0], "height", CROP.img.height());
+			CROP.img.height(290);
+			if (imgHeight > 290) {
+				return {
+					slideFn : slideHeight,
+					scale : {
+						min : (290 / imgHeight) * 100,
+						max : 100
+					}
+				};
+			}
+		}
+
+	}
+
+	function slideWidth(ui) {
+		var width = jQuery.data(CROP.img[0], "width");
+		CROP.img.width(width * ui.value / 100);
+		$("#amount").val(ui.value);
+	}
+	function slideHeight(ui) {
+		var height = jQuery.data(CROP.img[0], "height");
+		CROP.img.height(height * ui.value / 100);
+		$("#amount").val(ui.value);
+	}
+	function initializeSlider(result) {
+		$("#amount").val(result.scale.min);
 		$("#slider").slider(
 				{
-					min : 50,
-					max : 100,
+					value : result.scale.min,
+					min : result.scale.min,
+					max : result.scale.max,
 					start : function(evt, ui) {
 						CROP.img.css("left", 0);
 						CROP.img.css("top", 0);
 					},
 					slide : function(evt, ui) {
-						var width = jQuery.data(CROP.img[0], "width");
-						CROP.img.width(width * ui.value / 100);
-						$("#amount").val(ui.value);
+						result.slideFn(ui);
 					},
 					change : function(evt, ui) {
 						CROP.selection.scale = ui.value;
@@ -175,15 +213,39 @@
 						});
 					}
 				});
+		// reset slider
+		$("#slider").slider("value", result.scale.min);
+	}
+
+	function handleOnLoad() {
+		CROP.canvas = {
+			width : 490,
+			height : 290
+		};
+
+		$('#fileupload').fileupload(
+				{
+					dataType : 'json',
+					done : function(e, data) {
+						// console.log("data");
+						CROP.img.attr("src", "image/upload.jpg&ts="
+								+ new Date().getTime());
+					}
+				});
+
 		CROP.img = $("#panel");
 
 		CROP.img.attr("src", "crop.jpg");
-		CROP.img.load(function() {
-			jQuery.data(CROP.img[0], "width", CROP.img.width());
-			CROP.img.width(CROP.img.width() * 50 / 100);
+		CROP.img.load(function(evt) {
+			CROP.img.width("auto");
+			CROP.img.height("auto");
+
+			var result = calculateImageScale();
+			initializeSlider(result);
+
 		});
 
-		CROP.selection = new selection(0, 0, 200, 200);
+		CROP.selection = new selection(0, 0, 100, 200);
 		$("#cropBtn").click(getCropResult);
 
 	}
